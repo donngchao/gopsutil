@@ -36,14 +36,17 @@ type Invoker interface {
 	CommandWithContext(context.Context, string, ...string) ([]byte, error)
 }
 
+// Invoke 定义空结构体Invoke
 type Invoke struct{}
 
+// Command 针对Invoke类型定义Command方法
 func (i Invoke) Command(name string, arg ...string) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), Timeout)
 	defer cancel()
 	return i.CommandWithContext(ctx, name, arg...)
 }
 
+// CommandWithContext 定义含有context的command
 func (i Invoke) CommandWithContext(ctx context.Context, name string, arg ...string) ([]byte, error) {
 	cmd := exec.CommandContext(ctx, name, arg...)
 

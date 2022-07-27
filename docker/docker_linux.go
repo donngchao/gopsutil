@@ -62,6 +62,7 @@ func GetDockerIDList() ([]string, error) {
 	return GetDockerIDListWithContext(context.Background())
 }
 
+// 获取容器ID列表信息
 func GetDockerIDListWithContext(ctx context.Context) ([]string, error) {
 	out, err := invoke.CommandWithContext(ctx, "docker", "ps", "-q", "--no-trunc")
 	if err != nil {
@@ -80,7 +81,7 @@ func GetDockerIDListWithContext(ctx context.Context) ([]string, error) {
 		ret = append(ret, l)
 	}
 
-	return ret, nil
+	return ret, nil //获取所有的返回结果, 并且加入到ret 切片中
 }
 
 // CgroupCPU returns specified cgroup id CPU status.
