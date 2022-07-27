@@ -20,6 +20,7 @@ var (
 	procGlobalMemoryStatusEx = common.Modkernel32.NewProc("GlobalMemoryStatusEx")
 )
 
+// 定义memoryStatusEx结构体
 type memoryStatusEx struct {
 	cbSize                  uint32
 	dwMemoryLoad            uint32
@@ -38,7 +39,7 @@ func VirtualMemory() (*VirtualMemoryStat, error) {
 
 func VirtualMemoryWithContext(ctx context.Context) (*VirtualMemoryStat, error) {
 	var memInfo memoryStatusEx
-	memInfo.cbSize = uint32(unsafe.Sizeof(memInfo))
+	memInfo.cbSize = uint32(unsafe.Sizeof(memInfo)) //动态获取cbSize 为64
 	mem, _, _ := procGlobalMemoryStatusEx.Call(uintptr(unsafe.Pointer(&memInfo)))
 	if mem == 0 {
 		return nil, windows.GetLastError()

@@ -71,6 +71,7 @@ const (
 	UnknownState = ""
 )
 
+// OpenFilesStat 定义文件状态结构体， Path代表路径，Fd代表文件句柄数
 type OpenFilesStat struct {
 	Path string `json:"path"`
 	Fd   uint64 `json:"fd"`
@@ -171,6 +172,7 @@ func (p NumCtxSwitchesStat) String() string {
 	return string(s)
 }
 
+// Pids 返回所有正在运行的进程的Pid
 // Pids returns a slice of process ID list which are running now.
 func Pids() ([]int32, error) {
 	return PidsWithContext(context.Background())

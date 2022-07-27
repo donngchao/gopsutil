@@ -12,6 +12,7 @@ var invoke common.Invoker = common.Invoke{}
 // for human consumption.
 //
 // The other fields in this struct contain kernel specific values.
+// 这里定义VirtualMemoryStat结构体类型
 type VirtualMemoryStat struct {
 	// Total amount of RAM on this system
 	Total uint64 `json:"total"`
@@ -46,7 +47,7 @@ type VirtualMemoryStat struct {
 	// https://reviews.freebsd.org/D8467
 	Laundry uint64 `json:"laundry"`
 
-	// Linux specific numbers
+	// Linux specific numbers, 针对不同的OS操作系统，定义了不同的变量
 	// https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-meminfo.html
 	// https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 	// https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
@@ -96,6 +97,7 @@ type SwapMemoryStat struct {
 	PgMajFault uint64 `json:"pgMajFault"`
 }
 
+//基于VirtualMemoryStat类型，定义String方法，返回string类型的变量，这里是返回json数据
 func (m VirtualMemoryStat) String() string {
 	s, _ := json.Marshal(m)
 	return string(s)
