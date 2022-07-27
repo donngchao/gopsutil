@@ -22,20 +22,21 @@ var (
 	ErrorNotPermitted                     = errors.New("operation not permitted")
 )
 
+// Process 定义Process结构体
 type Process struct {
-	Pid            int32 `json:"pid"`
-	name           string
-	status         string
+	Pid            int32  `json:"pid"` //进程的Pid
+	name           string //进程名称
+	status         string //进程状态
 	parent         int32
 	parentMutex    sync.RWMutex // for windows ppid cache
 	numCtxSwitches *NumCtxSwitchesStat
 	uids           []int32
 	gids           []int32
 	groups         []int32
-	numThreads     int32
+	numThreads     int32 //进程含有的线程数
 	memInfo        *MemoryInfoStat
 	sigInfo        *SignalInfoStat
-	createTime     int64
+	createTime     int64 //进程的创建时间
 
 	lastCPUTimes *cpu.TimesStat
 	lastCPUTime  time.Time
@@ -67,7 +68,7 @@ const (
 	Detached = "detached"
 	System   = "system"
 	Orphan   = "orphan"
-
+	// UnknownState 进程的其他未知状态
 	UnknownState = ""
 )
 
@@ -77,6 +78,7 @@ type OpenFilesStat struct {
 	Fd   uint64 `json:"fd"`
 }
 
+// MemoryInfoStat 定义进程的内存信息
 type MemoryInfoStat struct {
 	RSS    uint64 `json:"rss"`    // bytes
 	VMS    uint64 `json:"vms"`    // bytes
@@ -102,6 +104,7 @@ type RlimitStat struct {
 	Used     uint64 `json:"used"`
 }
 
+// IOCountersStat 进程的io状态信息
 type IOCountersStat struct {
 	ReadCount  uint64 `json:"readCount"`
 	WriteCount uint64 `json:"writeCount"`
@@ -316,6 +319,7 @@ func calculatePercent(t1, t2 *cpu.TimesStat, delta float64, numcpu int) float64 
 	return overall_percent
 }
 
+// 返回进程的内存使用率
 // MemoryPercent returns how many percent of the total RAM this process uses
 func (p *Process) MemoryPercent() (float32, error) {
 	return p.MemoryPercentWithContext(context.Background())
